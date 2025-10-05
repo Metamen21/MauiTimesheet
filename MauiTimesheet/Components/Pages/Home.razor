@@ -1,0 +1,16 @@
+﻿@page "/"
+
+@inject NavigationManager NavigationManager
+<h1 class="bg-yellow-500 p-6 text-4xl text-white">Hello, world!</h1>
+
+Welcome to your new app.  gggg  ggh hhjghjg 23 12312
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        NavigationManager.NavigateTo("login");
+    }
+
+}

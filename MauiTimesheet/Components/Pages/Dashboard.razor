@@ -1,0 +1,18 @@
+﻿@page "/dashboard"
+
+@inject NavigationManager NavigationManager
+@inject AuthService AuthService
+
+<h3>Dashboard</h3>
+
+<h1>Hello @AuthService.Name</h1>
+<button class="" @onclick="Logout">Logout</button>
+@code {
+
+    private void Logout()
+    {
+        AuthService.Logout();
+        NavigationManager.NavigateTo("login",replace:true);
+    }
+
+}
