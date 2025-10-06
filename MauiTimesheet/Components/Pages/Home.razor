@@ -5,20 +5,14 @@
 <h1 class="bg-yellow-500 p-6 text-4xl text-white">Hello, world!</h1>
 
 Welcome to your new app.
-<button class="app-btn" @onclick="HomePage">Go To Login</button>
 
 @code {
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (!AuthService.IsLoggedIn)
-        {
+        
             NavigationManager.NavigateTo("login");
-        }
+        
     }
-
-    public void HomePage()
-    {
-        NavigationManager.NavigateTo("login", replace: true);
-    }
+     
 }

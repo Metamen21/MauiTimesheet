@@ -68,7 +68,7 @@ namespace MauiTimesheet.Services
 
         public async Task<bool> LoginAsync(LoginModel model)
         {
-            var user = await _database.GetUserByUsername(model.UserName);
+            var user =await _database.GetUserByUsername(model.UserName);
             if (user == null || user.Password != model.Password)
             {
                 MauiInterop.AlertAsync("Invalid credentials", "Error");

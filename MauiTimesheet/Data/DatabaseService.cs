@@ -18,18 +18,20 @@ namespace MauiTimesheet.Data
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
 
+            //string[] FileDirectory = Directory.GetFiles(FileSystem.AppDataDirectory);
+
             InitializeDatabase();
         }
 
         public void InitializeDatabase()
         {
             var connection = _connection.GetConnection();
-            using(connection.Lock())
+            using (connection.Lock())
             {
                 connection.CreateTable<User>();
             }
         }
-         
+
         public async Task EnsureCreatedAsync()
         {
             await _connection.CreateTableAsync<User>();
@@ -41,7 +43,7 @@ namespace MauiTimesheet.Data
 
         public Task<User> GetUserByUsername(string username) =>
             _connection.Table<User>()
-            .Where(u => u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase))
+            .Where(u => u.UserName==username)
             .FirstOrDefaultAsync();
 
     }
