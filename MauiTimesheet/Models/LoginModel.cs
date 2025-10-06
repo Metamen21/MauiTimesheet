@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MauiTimesheet.Models;
 
-internal class LoginModel
+public class LoginModel
 {
     [Required]
     public string UserName { get; set; }

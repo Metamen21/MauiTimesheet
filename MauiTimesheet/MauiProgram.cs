@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MauiTimesheet.Data;
+using MauiTimesheet.Services;
+using Microsoft.Extensions.Logging;
 
 namespace MauiTimesheet
 {
@@ -21,7 +23,8 @@ namespace MauiTimesheet
     		builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<Services.AuthService>();
+            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddSingleton<AuthService>();
 
             return builder.Build();
         }
