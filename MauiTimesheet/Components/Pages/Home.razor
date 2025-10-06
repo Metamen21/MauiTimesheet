@@ -10,9 +10,18 @@ Welcome to your new app.
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
+        if (!AuthService.IsLoggedIn)
+        {
+
             NavigationManager.NavigateTo("login");
-        
+        }
+        else
+        {
+            NavigationManager.NavigateTo("dashboard");
+            
+        }
+
     }
      
 }
