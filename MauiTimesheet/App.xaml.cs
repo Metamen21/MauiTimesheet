@@ -1,10 +1,13 @@
-﻿namespace MauiTimesheet
+﻿using MauiTimesheet.Services;
+
+namespace MauiTimesheet
 {
     public partial class App : Application
     {
-        public App()
+        public App(AuthService authService)
         {
             InitializeComponent();
+            authService.Initalize();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

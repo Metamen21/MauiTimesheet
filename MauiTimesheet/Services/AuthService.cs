@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MauiTimesheet.Services
@@ -52,13 +53,16 @@ namespace MauiTimesheet.Services
         //}
 
 
+        private const string UserStateKey = "u-data";
 
         private readonly DatabaseService _database;
+
+        public LoggedInUser User { get; private set; }
 
         public string Name { get; private set; }
         public int Id { get; private set; }
 
-        public bool IsLoggedIn => Name != null;
+        public bool IsLoggedIn => User.Id > 0;
 
 
         public AuthService(DatabaseService database)
@@ -66,16 +70,31 @@ namespace MauiTimesheet.Services
             _database = database;
         }
 
+        public void Initalize()
+        {
+
+            var loggedInUserJson = Preferences.Default.Get<string>(UserStateKey, null);
+            if (string.IsNullOrWhiteSpace(loggedInUserJson))
+                return;
+
+            User = LoggedInUser.FromJson(loggedInUserJson);
+        }
+
         public async Task<bool> LoginAsync(LoginModel model)
         {
-            var user =await _database.GetUserByUsername(model.UserName);
+            var user = await _database.GetUserByUsername(model.UserName);
             if (user == null || user.Password != model.Password)
             {
                 MauiInterop.AlertAsync("Invalid credentials", "Error");
                 return false;
             }
+            User = new LoggedInUser(user.Id, user.Name);
+
             Id = user.Id;
             Name = user.Name;
+
+            Preferences.Default.Set<string>(UserStateKey, User.ToJson());
+
             return true;
 
         }
@@ -102,8 +121,8 @@ namespace MauiTimesheet.Services
 
         public void Logout()
         {
-            Name = string.Empty;
-            Id = 0;
+            User = new();
+            Preferences.Default.Remove(UserStateKey);
         }
 
     }

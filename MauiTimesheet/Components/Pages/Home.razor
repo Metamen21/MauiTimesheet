@@ -1,27 +1,27 @@
 ﻿@page "/"
+@using MauiTimesheet.Components.Layout
+
+@layout AuthLayout
+
 @inject NavigationManager NavigationManager
 @inject AuthService AuthService
 
-<h1 class="bg-yellow-500 p-6 text-4xl text-white">Hello, world!</h1>
-
-Welcome to your new app.
 
 @code {
     protected override void OnInitialized()
     {
-        base.OnInitialized();
 
-        if (!AuthService.IsLoggedIn)
+
+        if (AuthService.IsLoggedIn)
         {
+            NavigationManager.NavigateTo("dashboard");
 
-            NavigationManager.NavigateTo("login");
         }
         else
         {
-            NavigationManager.NavigateTo("dashboard");
-            
+            NavigationManager.NavigateTo("login");
         }
 
     }
-     
+
 }

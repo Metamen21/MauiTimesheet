@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MauiTimesheet.Models;
@@ -14,5 +15,3 @@ public class LoginModel
     [Required]
     public string Password { get; set; }
 }
-
-
