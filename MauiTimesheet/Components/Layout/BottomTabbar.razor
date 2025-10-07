@@ -1,5 +1,6 @@
 ﻿@implements IDisposable 
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 
 <div class="flex w-full items-center justify-around">
@@ -13,19 +14,21 @@
     }
 </div>
 
-@code{
+@code {
     private TabItem[] _tabitems = [
         new TabItem("images/dashboard.svg","Dashboard",true,"dashboard"),
-    new TabItem("images/folder.svg","Projects",false,"projects"),
-    new TabItem("images/clock.svg","Log Time",false,"log-time"),
+        new TabItem("images/folder.svg","Projects",false,"projects"),
+        new TabItem("images/clock.svg","Log Time",false,"log-time"),
     ];
+
+    private Stack<string> _navigationStack = new();
 
     protected override void OnInitialized()
     {
         NavigationManager.LocationChanged += OnLocationChanged;
     }
 
-    private void OnLocationChanged(object? sender,LocationChangedEventArgs e)
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         string? tabUrl = null;
         if (e.Location.EndsWith("dashboard"))
@@ -38,9 +41,23 @@
         if (tabUrl != null)
         {
             var tabToActive = _tabitems.First(t => t.Link == tabUrl);
-            ChangeTab(tabToActive);
+            UpdateTab(tabToActive);
+            if (!_navigationStack.Contains(tabUrl))
+            {
+                _navigationStack.Push(tabUrl);
+            }
             StateHasChanged();
         }
+    }
+
+    private void UpdateTab(TabItem tabItem)
+    {
+        if (tabItem.IsActive)
+            return;
+
+        var existingActiveTab = _tabitems.First(t => t.IsActive);
+        existingActiveTab.IsActive = false;
+        tabItem.IsActive = true;
     }
 
     private void ChangeTab(TabItem tabItem)
@@ -48,11 +65,8 @@
         if (tabItem.IsActive)
             return;
 
-        var existingActiveTab = _tabitems.First(t => t.IsActive);
-        existingActiveTab.IsActive = false;
-
-        tabItem.IsActive = true;
-        NavigationManager.NavigateTo(tabItem.Link);
+        UpdateTab(tabItem);
+        NavigationManager.NavigateTo(tabItem.Link, false); // Changed to false to maintain history
     }
 
     public void Dispose() => NavigationManager.LocationChanged -= OnLocationChanged;

@@ -10,18 +10,13 @@
 @code {
     protected override void OnInitialized()
     {
-
-
         if (AuthService.IsLoggedIn)
         {
-            NavigationManager.NavigateTo("dashboard");
-
+            NavigationManager.NavigateTo("dashboard", false); // Changed to false to maintain history
         }
         else
         {
-            NavigationManager.NavigateTo("login");
+            NavigationManager.NavigateTo("login", true); // Keep replace: true for login redirect
         }
-
     }
-
 }
