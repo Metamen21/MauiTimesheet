@@ -20,6 +20,8 @@ namespace MauiTimesheet
         }
 
     }
+    // Fixes the keyboard overlaps the Blazor webview
+    //https://github.com/dotnet/maui/issues/14197#issuecomment-1535561632
 #nullable disable
     public class GlobalLayoutUtil
     {
