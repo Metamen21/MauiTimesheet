@@ -29,6 +29,7 @@ namespace MauiTimesheet.Data
             using (connection.Lock())
             {
                 connection.CreateTable<User>();
+                connection.CreateTable<Project>();
             }
         }
 
@@ -43,8 +44,15 @@ namespace MauiTimesheet.Data
 
         public Task<User> GetUserByUsername(string username) =>
             _connection.Table<User>()
-            .Where(u => u.UserName==username)
+            .Where(u => u.UserName == username)
             .FirstOrDefaultAsync();
+
+
+        public Task AddProject(Project project) => _connection.InsertAsync(project);
+        public Task UpdateProject(Project project) => _connection.UpdateAsync(project);
+        public Task DeleteProject(Project project) => _connection.DeleteAsync(project);
+        public Task<List<Project>> GetProjects() => _connection.Table<Project>().ToListAsync();
+        public Task<Project> GetProject(int projectId) => _connection.FindAsync<Project>(projectId);
 
     }
 }

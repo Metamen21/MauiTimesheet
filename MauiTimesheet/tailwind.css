@@ -10,6 +10,9 @@
         @apply w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white}
 
     .app-label {
-       @apply mb-2 block text-sm font-medium text-gray-600}
+       @apply mb-2 block text-sm font-medium text-gray-500}
 
+
+    .app-validation-msg {
+        @apply text-sm text-red-500 mt-2}
 }

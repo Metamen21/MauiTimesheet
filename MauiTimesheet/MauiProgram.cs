@@ -25,6 +25,7 @@ namespace MauiTimesheet
 
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddSingleton<ProjectService>();
 
             return builder.Build();
         }
